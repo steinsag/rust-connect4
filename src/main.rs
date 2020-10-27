@@ -8,12 +8,14 @@ mod board;
 mod game;
 mod ui;
 
+use board::CellValue;
+
 fn make_human_move(board: &mut board::Board) -> Option<(u8, u8)> {
     let col = ui::read_column_input();
 
     match board.get_lowest_empty_row(&col) {
         Some(row) => {
-            board.add_coin(&col, board::CellValue::HUMAN);
+            board.add_coin(&col, CellValue::HUMAN);
             return Some((col, row));
         }
         None => {
@@ -29,7 +31,7 @@ fn make_ai_move(board: &mut board::Board, rng: &mut ThreadRng) -> Option<(u8, u8
         let col: u8 = rng.gen_range(0, &COLS);
         match board.get_lowest_empty_row(&col) {
             Some(row) => {
-                board.add_coin(&col, board::CellValue::AI);
+                board.add_coin(&col, CellValue::AI);
                 return Some((col, row));
             }
             None => continue,
