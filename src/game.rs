@@ -58,18 +58,18 @@ fn cell_value_to_winner(cell_value: &CellValue) -> Winner {
 }
 
 pub fn get_winner(board: &super::board::Board, col: &u8, row: &u8) -> Winner {
-    let cell_value = board.get_value(col, row);
+    let cell_value = board.get(col, row);
 
     if *cell_value == CellValue::EMPTY {
         panic!("Last entered value should not be EMPTY.");
     }
 
-    let column_bits = value_vector_to_bits(&board.get_column_as_value_vector(col), cell_value);
+    let column_bits = value_vector_to_bits(&board.get_column(col), cell_value);
     if has_winning_bits(&column_bits) {
         return cell_value_to_winner(cell_value);
     }
 
-    let row_bits = value_vector_to_bits(&board.get_row_as_value_vector(row), cell_value);
+    let row_bits = value_vector_to_bits(&board.get_row(row), cell_value);
     if has_winning_bits(&row_bits) {
         return cell_value_to_winner(cell_value);
     }
@@ -92,7 +92,7 @@ pub fn get_winner(board: &super::board::Board, col: &u8, row: &u8) -> Winner {
 
     // check if there are any empty fields
     let top_row_idx = super::ROWS - 1;
-    let top_row = board.get_row_as_value_vector(&top_row_idx);
+    let top_row = board.get_row(&top_row_idx);
     for cell_value in top_row {
         if *cell_value == CellValue::EMPTY {
             return Winner::NOBODY;
